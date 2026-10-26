@@ -60,7 +60,7 @@ input.name:focus{border-color:var(--teal-light)}
 .stepper input{width:46px;height:44px;text-align:center;font:inherit;font-size:22px;font-weight:700;border:none;background:transparent;color:var(--ink);-moz-appearance:textfield;border-radius:8px}
 .stepper input:focus{outline:2px solid var(--teal-light)}
 .stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.party:not(.on) .stepper input{color:#a9b8bb}
+.party:not(.on) .stepper input{color:#6f8489}
 .side{display:flex;align-items:center;gap:10px}
 .reset{background:#fff;border:1.5px solid var(--line);color:var(--muted);border-radius:99px;font:inherit;font-size:14px;padding:5px 12px;cursor:pointer;touch-action:manipulation}
 .reset:active{background:#e8eef0}
@@ -215,6 +215,11 @@ for (const p of PARTIES) {
   holdRepeat(minus, () => change(p.id, -1));
   inp.addEventListener("focus", () => inp.select());
   inp.addEventListener("change", () => setTyped(p.id, inp.value));
+  // עדכון תוך כדי הקלדה, כדי שהספירה וכפתור השליחה יתעדכנו מיד
+  inp.addEventListener("input", () => {
+    const n = Number(inp.value), cap = TOTAL - (sum() - seats[p.id]);
+    if (inp.value !== "" && Number.isInteger(n) && (n === 0 || n >= MIN) && n <= cap) { seats[p.id] = n; render(); }
+  });
   inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.blur(); });
 }
 
@@ -235,6 +240,7 @@ function setTyped(id, raw){
   if (n > cap) n = cap;
   if (n > 0 && n < MIN) n = cap >= MIN ? MIN : 0;
   seats[id] = n; render();
+  list.querySelector(`[data-id=${id}] input`).value = n;
 }
 // לחיצה ארוכה = שינוי רציף
 function holdRepeat(btn, fn){
@@ -284,7 +290,8 @@ $("reset").addEventListener("click", () => { if (!sum() || confirm("לאפס א�
 $("send").addEventListener("click", async () => {
   const btn = $("send"), err = $("err");
   err.textContent = "";
-  const name = $("name").value.trim();
+  // תו ראשון כמו = או + הופך לנוסחה בגיליון, לכן מסירים אותו
+  const name = $("name").value.trim().replace(/^[=+\-@]+/, "").trim();
   if (name.length < 2 || sum() !== TOTAL) return;
   btn.disabled = true; btn.textContent = "שולח…";
   const row = { name, ...Object.fromEntries(PARTIES.map(p => [p.name, seats[p.id]])) };
