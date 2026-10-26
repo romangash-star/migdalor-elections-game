@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>רשת המגדלור מהמרת | בחירות 2026</title>
+<title>רשת המגדלור מנחשת | בחירות 2026</title>
 <meta name="description" content="נחשו כמה מנדטים כל רשימה תקבל בבחירות לכנסת ה-26">
-<meta property="og:title" content="רשת המגדלור מהמרת">
+<meta property="og:title" content="רשת המגדלור מנחשת">
 <meta property="og:description" content="מה יהיו תוצאות הבחירות? חלקו 120 מנדטים ונראה מי צודק">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://romangash-star.github.io/migdalor-elections-game/">
-<meta property="og:image" content="https://romangash-star.github.io/migdalor-elections-game/assets/share.jpg">
+<meta property="og:image" content="https://romangash-star.github.io/migdalor-elections-game/assets/share2.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="רשת המגדלור מהמרת – מה יהיו תוצאות הבחירות?">
+<meta property="og:image:alt" content="רשת המגדלור מנחשת – מה יהיו תוצאות הבחירות?">
 <meta property="og:locale" content="he_IL">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://romangash-star.github.io/migdalor-elections-game/assets/share.jpg">
+<meta name="twitter:image" content="https://romangash-star.github.io/migdalor-elections-game/assets/share2.jpg">
 <meta name="theme-color" content="#00586f">
 <link rel="icon" href="assets/logo.png">
 <style>
@@ -95,6 +95,8 @@ input.name:focus{border-color:var(--teal-light)}
 .done-screen{display:none;padding:28px 0 40px;text-align:center}
 .done-screen h2{font-size:34px;color:var(--teal)}
 .done-screen p{color:var(--muted);margin:10px 0 20px}
+.nomoney{display:inline-block;background:var(--gold);color:var(--ink);border-radius:10px;padding:0 10px;font-size:.8em;vertical-align:middle;white-space:nowrap}
+.fine{background:rgba(255,255,255,.92);border-radius:12px;padding:10px 12px;margin-top:16px;font-size:13px;line-height:1.5;color:var(--muted);text-align:center}
 .done-screen .prize{background:var(--gold);color:var(--ink);font-weight:700;font-size:19px;line-height:1.35;border-radius:14px;padding:14px 16px;margin:0 0 20px}
 .summary{list-style:none;text-align:right;background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px 14px}
 .summary li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
@@ -116,7 +118,7 @@ body.sent .done-screen{display:block}
 <header>
   <div class="wrap">
     <img src="assets/logo.png" alt="המגדלור – חינוך פוליטי לדמוקרטיה ליברלית">
-    <h1>רשת המגדלור מהמרת</h1>
+    <h1>רשת המגדלור מנחשת</h1>
     <p class="q">מה יהיו תוצאות הבחירות?</p>
     <p class="sub">הבחירות לכנסת ה־26 · 27 באוקטובר 2026<br>חלקו 120 מנדטים בין הרשימות</p>
   </div>
@@ -130,14 +132,15 @@ body.sent .done-screen{display:block}
     </div>
     <p class="hint"><span>💡</span><span>רשימה שעוברת את אחוז החסימה מקבלת לפחות <b>4 מנדטים</b>, לכן לחיצה ראשונה על + נותנת 4. אפשר גם להקליד מספר.</span></p>
     <ul class="list" id="list"></ul>
+    <p class="fine">משחק ניחושים לשם ההנאה בלבד. ההשתתפות חינם, אין בו תשלום או כסף, והוא לא קשור למי אתם מצביעים. הזוכה ייקבע לפי הקרבה לתוצאות הרשמיות של ועדת הבחירות המרכזית. השם הפרטי נשמר רק לצורך בחירת הזוכה.</p>
   </section>
 
   <section class="done-screen" id="done" aria-live="polite">
-    <h2>ההימור נשלח!</h2>
-    <p id="doneMsg">תודה! ההימור נשמר.</p>
-    <p class="prize">🏆 מי שיהמר הכי קרוב יזכה בפרס ביום חמישי הקרוב!</p>
+    <h2>הניחוש נשלח!</h2>
+    <p id="doneMsg">תודה! הניחוש נשמר.</p>
+    <p class="prize">🏆 מי שינחש הכי קרוב יזכה בפרס ביום חמישי הקרוב!</p>
     <ul class="summary" id="summary"></ul>
-    <button class="again" id="again" type="button">לשלוח הימור נוסף</button>
+    <button class="again" id="again" type="button">לשלוח ניחוש נוסף</button>
   </section>
 </main>
 
@@ -149,13 +152,13 @@ body.sent .done-screen{display:block}
     </div>
     <div class="blocs" id="blocs"></div>
     <div class="track"><div class="fill" id="fill"></div><div class="mark"><span>רוב 61</span></div></div>
-    <button class="send" id="send" type="button" disabled>שליחת ההימור</button>
+    <button class="send" id="send" type="button" disabled>שליחת הניחוש</button>
     <div class="err" id="err"></div>
   </div>
 </div>
 
 <script>
-// כתובת ה-Web App של Google Apps Script (מהגיליון). כל ההימורים נשמרים שם.
+// כתובת ה-Web App של Google Apps Script (מהגיליון). כל הניחושים נשמרים שם.
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzU8uULC-uSHDt4GtosU8mWFYgD3bXvdNSjsjxZ1rUc9OVt4YOvM7fCcDlIERnAhcoECw/exec";
 
 const TOTAL = 120, MIN = 4;
@@ -274,7 +277,7 @@ function updateSend(){
   const nameOk = $("name").value.trim().length >= 2, full = sum() === TOTAL;
   const btn = $("send");
   btn.disabled = !(nameOk && full);
-  btn.textContent = !full ? `חסרים ${TOTAL - sum()} מנדטים` : !nameOk ? "נא למלא שם פרטי" : "שליחת ההימור";
+  btn.textContent = !full ? `חסרים ${TOTAL - sum()} מנדטים` : !nameOk ? "נא למלא שם פרטי" : "שליחת הניחוש";
 }
 $("name").addEventListener("input", () => { updateSend(); saveDraft(); });
 $("reset").addEventListener("click", () => { if (!sum() || confirm("לאפס את כל המנדטים?")) { for (const k in seats) seats[k] = 0; render(); } });
@@ -298,7 +301,7 @@ $("send").addEventListener("click", async () => {
 });
 
 function showDone(name){
-  $("doneMsg").textContent = `תודה ${name}! ההימור נשמר.`;
+  $("doneMsg").textContent = `תודה ${name}! הניחוש נשמר.`;
   const ul = $("summary"); ul.innerHTML = "";
   const add = (label, n, cls) => { const li = document.createElement("li"); if (cls) li.className = cls;
     li.innerHTML = `<span></span><b>${n}</b>`; li.firstChild.textContent = label; ul.appendChild(li); };
