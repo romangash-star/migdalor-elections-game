@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>הימור הבחירות | המגדלור</title>
+<meta name="description" content="נחשו כמה מנדטים כל רשימה תקבל בבחירות לכנסת ה-26">
+<meta property="og:title" content="הימור הבחירות של המגדלור">
+<meta property="og:description" content="כמה מנדטים כל רשימה תקבל? חלקו 120 ונראה מי צודק">
+<meta property="og:image" content="assets/logo.png">
+<meta name="theme-color" content="#00586f">
+<link rel="icon" href="assets/logo.png">
+<style>
+@font-face{font-family:"Migdalor Head";src:url(assets/head.otf) format("opentype");font-display:swap}
+@font-face{font-family:"Migdalor Text";src:url(assets/text.otf) format("opentype");font-display:swap}
+:root{
+  --teal:#00586f; --teal-mid:#1c7d8f; --teal-light:#2b9eb5;
+  --gold:#fcb84f; --gold-dark:#e8a53a; --ink:#0f2e36;
+  --muted:#5b7177; --line:#d9e3e5; --bg:#f6f8f4; --card:#fff;
+  --ok:#1c7d8f; --over:#c2410c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Migdalor Text",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.45;padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+h1,h2,.head{font-family:"Migdalor Head","Migdalor Text",system-ui,sans-serif;font-weight:normal;letter-spacing:0}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+header{background:#fff;border-bottom:4px solid var(--gold);padding:18px 0 20px}
+header img{display:block;width:min(240px,62vw);height:auto;margin:0 auto 14px}
+h1{font-size:clamp(28px,8vw,38px);color:var(--teal);text-align:center;line-height:1.1}
+.sub{text-align:center;color:var(--muted);margin-top:8px;font-size:16px}
+.namebox{margin:20px 0 6px}
+label.lbl{display:block;font-weight:700;color:var(--teal);margin-bottom:6px}
+input.name{width:100%;font:inherit;font-size:18px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}
+input.name:focus{border-color:var(--teal-light)}
+.hint{font-size:14px;color:var(--muted);margin:14px 0 4px;display:flex;gap:8px;align-items:flex-start}
+.hint b{color:var(--teal)}
+.list{list-style:none;display:grid;gap:10px;margin-top:12px}
+.party{background:var(--card);border:2px solid var(--line);border-radius:14px;display:grid;grid-template-columns:96px 1fr auto;align-items:center;gap:12px;padding:8px 10px 8px 8px;transition:border-color .15s,background .15s}
+.party.on{border-color:var(--teal-light);background:#f2fafb}
+.party .logo{width:96px;aspect-ratio:3/2;border-radius:8px;overflow:hidden;background:#fff;border:1px solid var(--line)}
+.party .logo img{width:100%;height:100%;object-fit:contain;display:block}
+.party .pname{font-weight:700;font-size:15.5px;line-height:1.25}
+.stepper{display:flex;align-items:center;gap:4px;direction:ltr}
+.stepper button{width:44px;height:44px;border-radius:50%;border:none;font-size:26px;line-height:1;font-family:system-ui,sans-serif;cursor:pointer;display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.stepper .minus{background:#e8eef0;color:var(--teal)}
+.stepper .plus{background:var(--teal);color:#fff}
+.stepper button:disabled{opacity:.3;cursor:default}
+.stepper button:active:not(:disabled){transform:scale(.92)}
+.stepper input{width:46px;height:44px;text-align:center;font:inherit;font-size:22px;font-weight:700;border:none;background:transparent;color:var(--ink);-moz-appearance:textfield;border-radius:8px}
+.stepper input:focus{outline:2px solid var(--teal-light)}
+.stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.party:not(.on) .stepper input{color:#a9b8bb}
+.reset{display:block;margin:16px auto 0;background:none;border:none;color:var(--muted);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer;padding:8px}
+/* bottom bar */
+.bar{position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,40,50,.08);padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:10}
+.count{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.count .big{font-size:30px;font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums;line-height:1}
+.count .big small{font-size:18px;color:var(--muted);font-weight:400}
+.count .left{font-size:15px;color:var(--muted)}
+.count .left.done{color:var(--ok);font-weight:700}
+.track{position:relative;height:12px;border-radius:99px;background:#e8eef0;margin:8px 0 10px;overflow:visible}
+.fill{position:absolute;inset:0 0 0 auto;width:0;border-radius:99px;background:var(--teal-light);transition:width .2s}
+.fill.full{background:var(--gold)}
+.mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.35;right:calc(61/120*100%)}
+.mark span{position:absolute;top:-18px;right:-22px;font-size:11px;color:var(--muted);white-space:nowrap}
+.send{width:100%;height:52px;border:none;border-radius:12px;background:var(--gold);color:var(--ink);font:inherit;font-size:19px;font-weight:700;cursor:pointer}
+.send:disabled{background:#e8eef0;color:#8a9ca0;cursor:default}
+.err{color:var(--over);font-size:14px;text-align:center;margin-top:6px;min-height:0}
+/* done screen */
+.done-screen{display:none;padding:28px 0 40px;text-align:center}
+.done-screen h2{font-size:34px;color:var(--teal)}
+.done-screen p{color:var(--muted);margin:10px 0 20px}
+.summary{list-style:none;text-align:right;background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px 14px}
+.summary li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
+.summary li:last-child{border:none}
+.summary b{font-variant-numeric:tabular-nums;color:var(--teal)}
+.again{margin-top:18px;background:none;border:2px solid var(--teal);color:var(--teal);border-radius:12px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer}
+body.sent .game,body.sent .bar{display:none}
+body.sent{padding-bottom:0}
+body.sent .done-screen{display:block}
+footer{text-align:center;color:var(--muted);font-size:13px;margin:26px 0 0}
+footer a{color:var(--teal-mid)}
+@media (max-width:370px){
+  .party{grid-template-columns:72px 1fr auto;gap:8px}
+  .party .logo{width:72px}
+  .stepper button{width:40px;height:40px}
+  .stepper input{width:38px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img src="assets/logo.png" alt="המגדלור – חינוך פוליטי לדמוקרטיה ליברלית">
+    <h1>מה יהיו תוצאות הבחירות?</h1>
+    <p class="sub">הבחירות לכנסת ה־26 · 27 באוקטובר 2026<br>חלקו 120 מנדטים בין הרשימות</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="game">
+    <div class="namebox">
+      <label class="lbl" for="name">השם שלך</label>
+      <input class="name" id="name" type="text" autocomplete="name" placeholder="שם פרטי ומשפחה" maxlength="60">
+    </div>
+    <p class="hint"><span>💡</span><span>רשימה שעוברת את אחוז החסימה מקבלת לפחות <b>4 מנדטים</b>, לכן לחיצה ראשונה על + נותנת 4. אפשר גם להקליד מספר.</span></p>
+    <ul class="list" id="list"></ul>
+    <button class="reset" id="reset" type="button">איפוס כל המנדטים</button>
+    <footer>רשימות ולוגואים: <a href="https://www.idi.org.il/elections-2026/" target="_blank" rel="noopener">המכון הישראלי לדמוקרטיה</a></footer>
+  </section>
+
+  <section class="done-screen" id="done" aria-live="polite">
+    <h2>ההימור נשלח!</h2>
+    <p id="doneMsg">תודה. נעדכן מי היה הכי קרוב.</p>
+    <ul class="summary" id="summary"></ul>
+    <button class="again" id="again" type="button">לשלוח הימור נוסף</button>
+  </section>
+</main>
+
+<div class="bar" role="region" aria-label="סיכום">
+  <div class="wrap">
+    <div class="count">
+      <div class="big" id="total" aria-live="polite">0 <small>/ 120 מנדטים</small></div>
+      <div class="left" id="left">נותרו 120</div>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div><div class="mark"><span>רוב 61</span></div></div>
+    <button class="send" id="send" type="button" disabled>שליחת ההימור</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<script>
+// כתובת ה-Web App של Google Apps Script (מהגיליון). כל ההימורים נשמרים שם.
+const SHEET_URL = "PASTE_APPS_SCRIPT_URL_HERE";
+
+const TOTAL = 120, MIN = 4;
+const PARTIES = [
+  {id:"likud",     name:"הליכוד"},
+  {id:"beyachad",  name:"ביחד בראשות בנט"},
+  {id:"yashar",    name:"ישר! עם איזנקוט"},
+  {id:"democrats", name:"הדמוקרטים בראשות יאיר גולן"},
+  {id:"rz",        name:"הציונות הדתית"},
+  {id:"otzma",     name:"עוצמה יהודית"},
+  {id:"shas",      name:"ש״ס"},
+  {id:"utj",       name:"יהדות התורה"},
+  {id:"ybeytenu",  name:"ישראל ביתנו"},
+  {id:"raam",      name:"רע״ם"},
+  {id:"joint",     name:"הרשימה המשותפת"},
+  {id:"miluim",    name:"המילואימניקים והכלכלית"},
+  {id:"amcha",     name:"עמך ישראל"},
+];
+const seats = Object.fromEntries(PARTIES.map(p => [p.id, 0]));
+const $ = id => document.getElementById(id);
+const sum = () => Object.values(seats).reduce((a, b) => a + b, 0);
+
+// שמירת טיוטה בדפדפן, כדי שרענון לא ימחק את מה שסומן
+const DRAFT = "migdalor-elections-draft";
+try { const d = JSON.parse(localStorage.getItem(DRAFT) || "{}");
+  if (d.seats) for (const k in seats) seats[k] = +d.seats[k] || 0;
+  if (d.name) $("name").value = d.name;
+  if (sum() > TOTAL) for (const k in seats) seats[k] = 0;
+} catch (e) {}
+function saveDraft(){ try { localStorage.setItem(DRAFT, JSON.stringify({seats, name:$("name").value})); } catch (e) {} }
+
+// בניית הרשימה
+const list = $("list");
+for (const p of PARTIES) {
+  const li = document.createElement("li");
+  li.className = "party"; li.dataset.id = p.id;
+  li.innerHTML = `
+    <div class="logo"><img src="assets/parties/${p.id}.png" alt="" loading="lazy"></div>
+    <div class="pname">${p.name}</div>
+    <div class="stepper">
+      <button class="minus" type="button" aria-label="פחות מנדטים ל${p.name}">−</button>
+      <input type="number" inputmode="numeric" min="0" max="120" aria-label="מנדטים ל${p.name}">
+      <button class="plus" type="button" aria-label="עוד מנדטים ל${p.name}">+</button>
+    </div>`;
+  list.appendChild(li);
+  const [minus, inp, plus] = li.querySelectorAll(".stepper > *");
+  holdRepeat(plus,  () => change(p.id, +1));
+  holdRepeat(minus, () => change(p.id, -1));
+  inp.addEventListener("focus", () => inp.select());
+  inp.addEventListener("change", () => setTyped(p.id, inp.value));
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.blur(); });
+}
+
+function change(id, dir){
+  const v = seats[id], room = TOTAL - sum();
+  if (dir > 0) {
+    if (v === 0) { if (room < MIN) return false; seats[id] = MIN; }
+    else { if (room < 1) return false; seats[id] = v + 1; }
+  } else {
+    if (v === 0) return false;
+    seats[id] = v <= MIN ? 0 : v - 1;
+  }
+  render(); return true;
+}
+function setTyped(id, raw){
+  let n = Math.max(0, Math.round(+raw || 0));
+  const cap = TOTAL - (sum() - seats[id]);
+  if (n > cap) n = cap;
+  if (n > 0 && n < MIN) n = cap >= MIN ? MIN : 0;
+  seats[id] = n; render();
+}
+// לחיצה ארוכה = שינוי רציף
+function holdRepeat(btn, fn){
+  let t1, t2;
+  const stop = () => { clearTimeout(t1); clearInterval(t2); };
+  btn.addEventListener("pointerdown", e => {
+    if (btn.disabled) return;
+    e.preventDefault(); fn();
+    t1 = setTimeout(() => { t2 = setInterval(() => { if (!fn()) stop(); }, 90); }, 420);
+  });
+  ["pointerup","pointerleave","pointercancel"].forEach(ev => btn.addEventListener(ev, stop));
+  btn.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); } });
+  btn.addEventListener("contextmenu", e => e.preventDefault());
+}
+
+function render(){
+  const s = sum(), room = TOTAL - s;
+  for (const li of list.children) {
+    const id = li.dataset.id, v = seats[id];
+    const [minus, inp, plus] = li.querySelectorAll(".stepper > *");
+    if (document.activeElement !== inp) inp.value = v;
+    li.classList.toggle("on", v > 0);
+    minus.disabled = v === 0;
+    plus.disabled = v === 0 ? room < MIN : room < 1;
+  }
+  $("total").innerHTML = `${s} <small>/ 120 מנדטים</small>`;
+  const left = $("left");
+  left.textContent = room === 0 ? "✓ הגעת ל־120" : `נותרו ${room}`;
+  left.classList.toggle("done", room === 0);
+  const fill = $("fill");
+  fill.style.width = (s / TOTAL * 100) + "%";
+  fill.classList.toggle("full", room === 0);
+  updateSend(); saveDraft();
+}
+function updateSend(){
+  const nameOk = $("name").value.trim().length >= 2, full = sum() === TOTAL;
+  const btn = $("send");
+  btn.disabled = !(nameOk && full);
+  btn.textContent = !full ? `חסרים ${TOTAL - sum()} מנדטים` : !nameOk ? "נא למלא שם" : "שליחת ההימור";
+}
+$("name").addEventListener("input", () => { updateSend(); saveDraft(); });
+$("reset").addEventListener("click", () => { if (!sum() || confirm("לאפס את כל המנדטים?")) { for (const k in seats) seats[k] = 0; render(); } });
+
+$("send").addEventListener("click", async () => {
+  const btn = $("send"), err = $("err");
+  err.textContent = "";
+  const name = $("name").value.trim();
+  if (name.length < 2 || sum() !== TOTAL) return;
+  btn.disabled = true; btn.textContent = "שולח…";
+  const row = { name, ...Object.fromEntries(PARTIES.map(p => [p.name, seats[p.id]])) };
+  try {
+    if (!/^https:\/\/script\.google\.com\//.test(SHEET_URL)) throw new Error("no-url");
+    // no-cors: Apps Script מקבל את הנתונים; התשובה לא קריאה מכאן
+    await fetch(SHEET_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify(row) });
+    showDone(name);
+  } catch (e) {
+    err.textContent = e.message === "no-url" ? "האתר עוד לא מחובר לגיליון השמירה." : "השליחה נכשלה. בדקו חיבור לאינטרנט ונסו שוב.";
+    updateSend();
+  }
+});
+
+function showDone(name){
+  $("doneMsg").textContent = `תודה ${name}! ההימור נשמר. אחרי הבחירות נבדוק מי היה הכי קרוב.`;
+  const ul = $("summary"); ul.innerHTML = "";
+  PARTIES.filter(p => seats[p.id] > 0).sort((a, b) => seats[b.id] - seats[a.id]).forEach(p => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span></span><b>${seats[p.id]}</b>`;
+    li.firstChild.textContent = p.name; ul.appendChild(li);
+  });
+  document.body.classList.add("sent");
+  window.scrollTo(0, 0);
+  try { localStorage.removeItem(DRAFT); } catch (e) {}
+}
+$("again").addEventListener("click", () => {
+  for (const k in seats) seats[k] = 0;
+  $("name").value = "";
+  document.body.classList.remove("sent"); render(); window.scrollTo(0, 0);
+});
+
+render();
+</script>
+</body>
+</html>
