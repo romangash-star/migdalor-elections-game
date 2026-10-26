@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>הימור הבחירות | המגדלור</title>
+<title>רשת המגדלור מהמרת | בחירות 2026</title>
 <meta name="description" content="נחשו כמה מנדטים כל רשימה תקבל בבחירות לכנסת ה-26">
-<meta property="og:title" content="הימור הבחירות של המגדלור">
+<meta property="og:title" content="רשת המגדלור מהמרת">
 <meta property="og:description" content="כמה מנדטים כל רשימה תקבל? חלקו 120 ונראה מי צודק">
 <meta property="og:image" content="assets/logo.png">
 <meta name="theme-color" content="#00586f">
@@ -50,7 +50,11 @@ input.name:focus{border-color:var(--teal-light)}
 .stepper input:focus{outline:2px solid var(--teal-light)}
 .stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .party:not(.on) .stepper input{color:#a9b8bb}
-.reset{display:block;margin:16px auto 0;background:none;border:none;color:var(--muted);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer;padding:8px}
+.side{display:flex;align-items:center;gap:10px}
+.reset{background:#fff;border:1.5px solid var(--line);color:var(--muted);border-radius:99px;font:inherit;font-size:14px;padding:5px 12px;cursor:pointer;touch-action:manipulation}
+.reset:active{background:#e8eef0}
+.reset:disabled{opacity:.4;cursor:default}
+.q{text-align:center;color:var(--teal-mid);font-weight:700;font-size:20px;margin-top:6px}
 /* bottom bar */
 .bar{position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,40,50,.08);padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:10}
 .count{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -78,8 +82,6 @@ input.name:focus{border-color:var(--teal-light)}
 body.sent .game,body.sent .bar{display:none}
 body.sent{padding-bottom:0}
 body.sent .done-screen{display:block}
-footer{text-align:center;color:var(--muted);font-size:13px;margin:26px 0 0}
-footer a{color:var(--teal-mid)}
 @media (max-width:370px){
   .party{grid-template-columns:72px 1fr auto;gap:8px}
   .party .logo{width:72px}
@@ -92,7 +94,8 @@ footer a{color:var(--teal-mid)}
 <header>
   <div class="wrap">
     <img src="assets/logo.png" alt="המגדלור – חינוך פוליטי לדמוקרטיה ליברלית">
-    <h1>מה יהיו תוצאות הבחירות?</h1>
+    <h1>רשת המגדלור מהמרת</h1>
+    <p class="q">מה יהיו תוצאות הבחירות?</p>
     <p class="sub">הבחירות לכנסת ה־26 · 27 באוקטובר 2026<br>חלקו 120 מנדטים בין הרשימות</p>
   </div>
 </header>
@@ -105,8 +108,6 @@ footer a{color:var(--teal-mid)}
     </div>
     <p class="hint"><span>💡</span><span>רשימה שעוברת את אחוז החסימה מקבלת לפחות <b>4 מנדטים</b>, לכן לחיצה ראשונה על + נותנת 4. אפשר גם להקליד מספר.</span></p>
     <ul class="list" id="list"></ul>
-    <button class="reset" id="reset" type="button">איפוס כל המנדטים</button>
-    <footer>רשימות ולוגואים: <a href="https://www.idi.org.il/elections-2026/" target="_blank" rel="noopener">המכון הישראלי לדמוקרטיה</a></footer>
   </section>
 
   <section class="done-screen" id="done" aria-live="polite">
@@ -121,7 +122,7 @@ footer a{color:var(--teal-mid)}
   <div class="wrap">
     <div class="count">
       <div class="big" id="total" aria-live="polite">0 <small>/ 120 מנדטים</small></div>
-      <div class="left" id="left">נותרו 120</div>
+      <div class="side"><span class="left" id="left">נותרו 120</span><button class="reset" id="reset" type="button">איפוס</button></div>
     </div>
     <div class="track"><div class="fill" id="fill"></div><div class="mark"><span>רוב 61</span></div></div>
     <button class="send" id="send" type="button" disabled>שליחת ההימור</button>
@@ -233,6 +234,7 @@ function render(){
   const fill = $("fill");
   fill.style.width = (s / TOTAL * 100) + "%";
   fill.classList.toggle("full", room === 0);
+  $("reset").disabled = s === 0;
   updateSend(); saveDraft();
 }
 function updateSend(){
