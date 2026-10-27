@@ -80,7 +80,7 @@ input.name:focus{border-color:var(--teal-light)}
 .mark span{position:absolute;top:-18px;right:-22px;font-size:11px;color:var(--muted);white-space:nowrap}
 .send{width:100%;height:52px;border:none;border-radius:12px;background:var(--gold);color:var(--ink);font:inherit;font-size:19px;font-weight:700;cursor:pointer}
 .send:disabled{background:#e8eef0;color:#8a9ca0;cursor:default}
-.blocs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 2px}
+.blocs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:8px 0 2px}
 .bloc{white-space:nowrap;display:flex;align-items:center;justify-content:space-between;gap:4px;border-radius:10px;padding:5px 8px;background:#f0f6f7;border:1.5px solid transparent;font-size:13px;line-height:1.15;color:var(--muted)}
 .bloc b{font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums}
 .bloc i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:5px;vertical-align:middle}
@@ -178,8 +178,7 @@ const PARTIES = [
 ];
 const BLOCS = [
   {id:"right",  name:"קואליציה", short:"קואליציה", color:"#00586f", parties:["likud","rz","otzma","shas","utj","amcha"]},
-  {id:"change", name:"גוש השינוי", short:"גוש השינוי", color:"#fcb84f", parties:["beyachad","yashar","democrats","ybeytenu","miluim"]},
-  {id:"arab",   name:"מפלגות ערביות", short:"ערביות", color:"#2b9eb5", parties:["raam","joint"]},
+  {id:"change", name:"גוש השינוי", short:"גוש השינוי", color:"#fcb84f", parties:["beyachad","yashar","democrats","ybeytenu","miluim","raam","joint"]},
 ];
 const blocOf = id => BLOCS.find(b => b.parties.includes(id));
 const blocSum = b => b.parties.reduce((a, id) => a + seats[id], 0);
