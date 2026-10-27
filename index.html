@@ -126,12 +126,12 @@ body.sent .done-screen{display:block}
 <main class="wrap">
   <section class="game">
     <div class="namebox">
-      <label class="lbl" for="name">השם הפרטי שלך</label>
-      <input class="name" id="name" type="text" autocomplete="given-name" placeholder="שם פרטי" maxlength="30">
+      <label class="lbl" for="name">שם פרטי ומשפחה</label>
+      <input class="name" id="name" type="text" autocomplete="name" placeholder="לדוגמה: דנה כהן" maxlength="60">
     </div>
     <p class="hint"><span>💡</span><span>רשימה שעוברת את אחוז החסימה מקבלת לפחות <b>4 מנדטים</b>, לכן לחיצה ראשונה על + נותנת 4. אפשר גם להקליד מספר.</span></p>
     <ul class="list" id="list"></ul>
-    <p class="fine">משחק ניחושים לשם ההנאה בלבד. ההשתתפות חינם, אין בו תשלום או כסף, והוא לא קשור למי אתם מצביעים. הזוכה ייקבע לפי הקרבה לתוצאות הרשמיות של ועדת הבחירות המרכזית. השם הפרטי נשמר רק לצורך בחירת הזוכה.</p>
+    <p class="fine">משחק ניחושים לשם ההנאה בלבד. ההשתתפות חינם, אין בו תשלום או כסף, והוא לא קשור למי אתם מצביעים. הזוכה ייקבע לפי הקרבה לתוצאות הרשמיות של ועדת הבחירות המרכזית. השם נשמר רק לצורך בחירת הזוכה.</p>
   </section>
 
   <section class="done-screen" id="done" aria-live="polite">
@@ -278,11 +278,13 @@ function render(){
     return `<div class="bloc${n >= 61 ? " maj" : ""}"><span><i style="background:${b.color}"></i>${b.short}</span><b>${n}</b></div>`; }).join("");
   updateSend(); saveDraft();
 }
+// לפחות שתי מילים: שם פרטי ושם משפחה
+function fullName(v){ return v.trim().split(/\s+/).filter(w => w.length >= 1).length >= 2 && v.trim().length >= 4; }
 function updateSend(){
-  const nameOk = $("name").value.trim().length >= 2, full = sum() === TOTAL;
+  const nameOk = fullName($("name").value), full = sum() === TOTAL;
   const btn = $("send");
   btn.disabled = !(nameOk && full);
-  btn.textContent = !full ? `חסרים ${TOTAL - sum()} מנדטים` : !nameOk ? "נא למלא שם פרטי" : "שליחת הניחוש";
+  btn.textContent = !full ? `חסרים ${TOTAL - sum()} מנדטים` : !nameOk ? "נא למלא שם פרטי ומשפחה" : "שליחת הניחוש";
 }
 $("name").addEventListener("input", () => { updateSend(); saveDraft(); });
 $("reset").addEventListener("click", () => { if (!sum() || confirm("לאפס את כל המנדטים?")) { for (const k in seats) seats[k] = 0; render(); } });
@@ -292,7 +294,7 @@ $("send").addEventListener("click", async () => {
   err.textContent = "";
   // תו ראשון כמו = או + הופך לנוסחה בגיליון, לכן מסירים אותו
   const name = $("name").value.trim().replace(/^[=+\-@]+/, "").trim();
-  if (name.length < 2 || sum() !== TOTAL) return;
+  if (!fullName(name) || sum() !== TOTAL) return;
   btn.disabled = true; btn.textContent = "שולח…";
   const row = { name, ...Object.fromEntries(PARTIES.map(p => [p.name, seats[p.id]])) };
   try {
